@@ -2,11 +2,16 @@ package ru.skillbox.orderservice.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.messaging.Source;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.skillbox.orderservice.controller.OrderNotFoundException;
 import ru.skillbox.orderservice.domain.*;
+import ru.skillbox.orderservice.processor.OrderPurchaseEventProcess;
 import ru.skillbox.orderservice.repository.OrderRepository;
+import ru.skillbox.orderservice.stream_cloud_channel.OutputChannelOrder;
 
 import java.util.Optional;
 
@@ -15,13 +20,12 @@ import java.util.Optional;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
-
-    private final KafkaService kafkaService;
+    private final OrderPurchaseEventProcess orderPurchaseEventProcess;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, KafkaService kafkaService) {
+    public OrderServiceImpl(OrderRepository orderRepository, OrderPurchaseEventProcess orderPurchaseEventProcess) {
         this.orderRepository = orderRepository;
-        this.kafkaService = kafkaService;
+        this.orderPurchaseEventProcess = orderPurchaseEventProcess;
     }
 
     @Transactional
@@ -36,7 +40,7 @@ public class OrderServiceImpl implements OrderService {
         );
         newOrder.addStatusHistory(newOrder.getStatus(), ServiceName.ORDER_SERVICE, "Order created");
         Order order = orderRepository.save(newOrder);
-        kafkaService.produce(OrderKafkaDto.toKafkaDto(order));
+        orderPurchaseEventProcess.createOrderPurchaseEvent(order);
         return Optional.of(order);
     }
 
@@ -52,6 +56,6 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(statusDto.getStatus());
         order.addStatusHistory(statusDto.getStatus(), statusDto.getServiceName(), statusDto.getComment());
         Order resultOrder = orderRepository.save(order);
-        kafkaService.produce(OrderKafkaDto.toKafkaDto(resultOrder));
+//        kafkaService.produce(OrderKafkaDto.toKafkaDto(resultOrder));
     }
 }
