@@ -2,16 +2,12 @@ package ru.skillbox.orderservice.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.messaging.Source;
-import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.skillbox.orderservice.controller.OrderNotFoundException;
 import ru.skillbox.orderservice.domain.*;
 import ru.skillbox.orderservice.processor.OrderPurchaseEventProcess;
 import ru.skillbox.orderservice.repository.OrderRepository;
-import ru.skillbox.orderservice.stream_cloud_channel.OutputChannelOrder;
 
 import java.util.Optional;
 
@@ -40,7 +36,7 @@ public class OrderServiceImpl implements OrderService {
         );
         newOrder.addStatusHistory(newOrder.getStatus(), ServiceName.ORDER_SERVICE, "Order created");
         Order order = orderRepository.save(newOrder);
-        orderPurchaseEventProcess.createOrderPurchaseEvent(order);
+        orderPurchaseEventProcess.getOrderPurchaseEvent(order);
         return Optional.of(order);
     }
 

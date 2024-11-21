@@ -1,8 +1,9 @@
-package ru.skillbox.orderservice.domain.event_for_sream_cloud;
+package org.example.paymentservice.event_for_sream_cloud;
 
 import lombok.Builder;
 import lombok.Data;
-import ru.skillbox.orderservice.domain.OrderStatus;
+import org.example.paymentservice.dto.OrderStatus;
+
 
 @Data
 @Builder
