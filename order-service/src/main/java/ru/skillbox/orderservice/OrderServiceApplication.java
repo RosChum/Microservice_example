@@ -10,6 +10,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories
 public class OrderServiceApplication {
 
+	//TODO своя база данных для pymentService, проверка отправки и приема сообщений в кафку между orderService и  paymentService
+
 	public static void main(String[] args) {
 		SpringApplication.run(OrderServiceApplication.class, args);
 	}
