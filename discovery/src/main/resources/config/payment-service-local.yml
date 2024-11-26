@@ -20,14 +20,14 @@ spring:
   cloud:
     stream:
       function:
-        definition: orderPurchaseEventHProcess
+        definition: orderPurchaseEventProcess
       bindings:
-        orderPurchaseEventHProcess-in-0:
+        orderPurchaseEventProcess-in-0:
           destination: orders
-          content-type: application/json
-        derPurchaseEventHProcess-in-0:
+#          content-type: application/json
+        orderPurchaseEventProcess-out-0:
           destination: payments
-          content-type: application/json
+#          content-type: application/json
       default-binder: kafka
       kafka:
         binder:
@@ -58,3 +58,6 @@ eureka:
 server:
   port: 8091
 
+logging:
+  level:
+    root: trace

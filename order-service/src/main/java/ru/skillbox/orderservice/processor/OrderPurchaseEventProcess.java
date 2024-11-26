@@ -22,7 +22,7 @@ public class OrderPurchaseEventProcess {
                 .status(order.getStatus())
                 .userId(null).build();
 
-         streamBridge.send("orderPurchaseEvent-out-0",OrderPurchaseEvent.builder()
+         streamBridge.send("orderPurchaseEvent-out-0", OrderPurchaseEvent.builder()
                  .orderId(order.getId())
                  .cost(Double.valueOf(order.getCost()))
                  .status(order.getStatus())

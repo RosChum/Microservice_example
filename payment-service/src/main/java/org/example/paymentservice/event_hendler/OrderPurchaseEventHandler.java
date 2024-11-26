@@ -23,6 +23,7 @@ public class OrderPurchaseEventHandler implements EventHandler<OrderPurchaseEven
     @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public PaymentEvent handle(OrderPurchaseEvent event) {
+        log.info("Start process OrderPurchaseEventHandler handle =======>>>>>> {}", event);
 
         UserBalance userBalance = userBalanceRepository.findByUserId(event.getUserId()).orElseThrow(() -> new UserBalanceException("UserBalance not found"));
 
@@ -39,7 +40,7 @@ public class OrderPurchaseEventHandler implements EventHandler<OrderPurchaseEven
 
         }
 
-        log.info("OrderPurchaseEventHandler handle {}", paymentEvent);
+        log.info("OrderPurchaseEventHandler handle =======>>>>>> {}", paymentEvent);
         return paymentEvent;
     }
 

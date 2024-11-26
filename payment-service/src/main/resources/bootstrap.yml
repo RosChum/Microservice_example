@@ -20,7 +20,7 @@ eureka:
     preferIpAddress: true
 
 # could be used for debugging
-#logging:
-#  level:
-#    org:
-#      springframework: TRACE
+logging:
+  level:
+    org:
+      springframework: TRACE

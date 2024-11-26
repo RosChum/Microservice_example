@@ -24,7 +24,7 @@ spring:
       bindings:
         orderPurchaseEvent-out-0:
           destination: orders
-          content-type: application/json
+#          content-type: application/json
       default-binder: kafka
       kafka:
         binder:
