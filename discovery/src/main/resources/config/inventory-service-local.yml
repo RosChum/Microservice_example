@@ -1,6 +1,6 @@
 spring:
   application:
-    name: order-service
+    name: inventory-service
   datasource:
     url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/order_db}
     username: ${DATABASE_USER:postgre_user}
@@ -19,25 +19,25 @@ spring:
     show-sql: true
   cloud:
     stream:
-#      function:
-#        definition: orderPurchaseEvent
+      function:
+        definition: orderPurchaseEventProcess
       bindings:
-        orderPurchaseEvent-out-0:
+        orderPurchaseEventProcess-in-0:
           destination: orders
           group: order-consumer-group
+          content-type: application/json
+        orderPurchaseEventProcess-out-0:
+          destination: payments
           content-type: application/json
       default-binder: kafka
       kafka:
         binder:
           brokers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
-          consumer:
-            group-id: order-consumer-group  # Группа для Kafka потребителей
-            auto-offset-reset: earliest  # Установка начальной точки для потребителей
-            key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-            value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+        consumer:
+          group-id: order-consumer-group
 #  kafka:
 #    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
-#    topic: order
+#    topic: orders
 
 management:
   endpoints:
@@ -59,5 +59,5 @@ eureka:
     enabled: true
 
 server:
-  port: 8080
+  port: 8091
 

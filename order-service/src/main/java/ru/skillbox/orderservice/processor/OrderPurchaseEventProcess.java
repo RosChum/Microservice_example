@@ -16,17 +16,13 @@ public class OrderPurchaseEventProcess {
 
 
     public void getOrderPurchaseEvent(Order order) {
-         OrderPurchaseEvent.builder()
+        OrderPurchaseEvent orderPurchaseEvent =  OrderPurchaseEvent.builder()
                 .orderId(order.getId())
                 .cost(Double.valueOf(order.getCost()))
                 .status(order.getStatus())
                 .userId(null).build();
 
-         streamBridge.send("orderPurchaseEvent-out-0", OrderPurchaseEvent.builder()
-                 .orderId(order.getId())
-                 .cost(Double.valueOf(order.getCost()))
-                 .status(order.getStatus())
-                 .userId(null).build());
+         streamBridge.send("orderPurchaseEvent-out-0", orderPurchaseEvent);
 
     }
 

@@ -17,6 +17,7 @@ public class StreamCloudChannelConfiguration {
     private final EventHandler<OrderPurchaseEvent, PaymentEvent> orderPurchaseEventHandler;
 
 
+
     @Bean
     public Function<OrderPurchaseEvent, PaymentEvent> orderPurchaseEventProcess() {
         return orderPurchaseEventHandler::handle;

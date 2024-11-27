@@ -10,7 +10,6 @@ import org.example.paymentservice.event_for_sream_cloud.PaymentEvent;
 import org.example.paymentservice.exception.UserBalanceException;
 import org.example.paymentservice.repository.UserBalanceRepository;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
@@ -20,10 +19,12 @@ public class OrderPurchaseEventHandler implements EventHandler<OrderPurchaseEven
 
     private final UserBalanceRepository userBalanceRepository;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+    @Transactional
     @Override
     public PaymentEvent handle(OrderPurchaseEvent event) {
         log.info("Start process OrderPurchaseEventHandler handle =======>>>>>> {}", event);
+
+        System.out.println(" УРАААААААААААААААААААААА!!!!!!!!!!!!");
 
         UserBalance userBalance = userBalanceRepository.findByUserId(event.getUserId()).orElseThrow(() -> new UserBalanceException("UserBalance not found"));
 

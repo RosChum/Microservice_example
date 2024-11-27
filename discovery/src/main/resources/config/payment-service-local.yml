@@ -24,17 +24,20 @@ spring:
       bindings:
         orderPurchaseEventProcess-in-0:
           destination: orders
-#          content-type: application/json
+          group: order-consumer-group
+          content-type: application/json
         orderPurchaseEventProcess-out-0:
           destination: payments
-#          content-type: application/json
+          content-type: application/json
       default-binder: kafka
       kafka:
         binder:
           brokers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
+        consumer:
+          group-id: order-consumer-group
 #  kafka:
 #    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
-#    topic: order
+#    topic: orders
 
 management:
   endpoints:
@@ -58,6 +61,3 @@ eureka:
 server:
   port: 8091
 
-logging:
-  level:
-    root: trace
