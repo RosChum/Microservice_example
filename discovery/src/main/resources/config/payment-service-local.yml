@@ -1,4 +1,23 @@
 spring:
+  cloud:
+    stream:
+      #      function:
+      #        definition: orderPurchaseEventProcess
+      bindings:
+        orderEventIn:
+          destination: orders
+          content-type: application/json
+        paymentsEventOut:
+          destination: payments
+          content-type: application/json
+      default-binder: kafka
+      kafka:
+        binder:
+          brokers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
+#        consumer:
+#          group-id: order-consumer-group
+#
+
   application:
     name: payment-service
   datasource:
@@ -17,25 +36,8 @@ spring:
       ddl-auto: update
       format_sql: true
     show-sql: true
-  cloud:
-    stream:
-      function:
-        definition: orderPurchaseEventProcess
-      bindings:
-        orderPurchaseEventProcess-in-0:
-          destination: orders
-          group: order-consumer-group
-          content-type: application/json
-        orderPurchaseEventProcess-out-0:
-          destination: payments
-          content-type: application/json
-      default-binder: kafka
-      kafka:
-        binder:
-          brokers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
-        consumer:
-          group-id: order-consumer-group
-#  kafka:
+
+##  kafka:
 #    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
 #    topic: orders
 

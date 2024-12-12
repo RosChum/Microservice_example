@@ -36,7 +36,7 @@ public class OrderServiceImpl implements OrderService {
         );
         newOrder.addStatusHistory(newOrder.getStatus(), ServiceName.ORDER_SERVICE, "Order created");
         Order order = orderRepository.save(newOrder);
-        orderPurchaseEventProcess.getOrderPurchaseEvent(order);
+        orderPurchaseEventProcess.process(order);
         return Optional.of(order);
     }
 

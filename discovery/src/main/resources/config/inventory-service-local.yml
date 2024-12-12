@@ -20,24 +20,23 @@ spring:
   cloud:
     stream:
       function:
-        definition: orderPurchaseEventProcess
+#        definition: orderPurchaseEventProcess
       bindings:
-        orderPurchaseEventProcess-in-0:
-          destination: orders
-          group: order-consumer-group
-          content-type: application/json
-        orderPurchaseEventProcess-out-0:
+        paymentsEventIn:
           destination: payments
+          content-type: application/json
+        deliveryEventOut:
+          destination: delivery
           content-type: application/json
       default-binder: kafka
       kafka:
         binder:
           brokers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
-        consumer:
-          group-id: order-consumer-group
+#        consumer:
+#          group-id: order-consumer-group
 #  kafka:
 #    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
-#    topic: orders
+
 
 management:
   endpoints:
@@ -59,5 +58,5 @@ eureka:
     enabled: true
 
 server:
-  port: 8091
+  port: 8099
 

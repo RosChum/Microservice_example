@@ -34,7 +34,7 @@ services:
       KAFKA_LISTENERS: INSIDE://:9092,OUTSIDE://:9094
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
-      KAFKA_CREATE_TOPICS: "order:4:1" # TODO add other queues here if needed
+#      KAFKA_CREATE_TOPICS: "order:4:1" # TODO add other queues here if needed
     volumes:
       - kafka:/data
     restart: on-failure
