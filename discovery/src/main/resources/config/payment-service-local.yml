@@ -1,20 +1,20 @@
 spring:
   cloud:
+    function:
+      definition: orderEventProcess
     stream:
-      #      function:
-      #        definition: orderPurchaseEventProcess
       bindings:
-        orderEventIn:
+        orderEventProcess-in-0:
           destination: orders
           content-type: application/json
-        paymentsEventOut:
+        orderEventProcess-out-0:
           destination: payments
           content-type: application/json
       default-binder: kafka
       kafka:
         binder:
           brokers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
-#        consumer:
+  #        consumer:
 #          group-id: order-consumer-group
 #
 
@@ -33,11 +33,11 @@ spring:
           use_jdbc_metadata_defaults: false
     database-platform: org.hibernate.dialect.PostgreSQL9Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
       format_sql: true
     show-sql: true
 
-##  kafka:
+#  kafka:
 #    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
 #    topic: orders
 

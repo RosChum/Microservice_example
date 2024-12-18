@@ -1,35 +1,39 @@
 package ru.skillbox.orderservice.processor;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 import ru.skillbox.orderservice.domain.Order;
+import ru.skillbox.orderservice.domain.event_for_sream_cloud.EventProducer;
 import ru.skillbox.orderservice.domain.event_for_sream_cloud.OrderPurchaseEvent;
-import ru.skillbox.orderservice.processor.stream_cloud_channel.OrderChannel;
 
 @Component
 @Getter
-@EnableBinding(OrderChannel.class)
 @Slf4j
-public class OrderPurchaseEventProcess {
+@RequiredArgsConstructor
+public class OrderPurchaseEventProcess implements EventProducer<OrderPurchaseEvent> {
 
-    @Autowired
-    private OrderChannel orderChannel;
 
+//    private final StreamBridge streamBridge;
+    private OrderPurchaseEvent orderPurchaseEvent;
+
+    @Override
+    public OrderPurchaseEvent getEvent() {
+        log.info("OrderPurchaseEventProcess  getEvent ====>>> {}", orderPurchaseEvent);
+        return orderPurchaseEvent;
+    }
 
     public void process(Order order) {
-        OrderPurchaseEvent orderPurchaseEvent = OrderPurchaseEvent.builder()
+        this.orderPurchaseEvent = OrderPurchaseEvent.builder()
                 .orderId(order.getId())
                 .cost(Double.valueOf(order.getCost()))
                 .status(order.getStatus())
                 .userId(null).build();
 
-        orderChannel.output().send(MessageBuilder.withPayload(orderPurchaseEvent).build());
+//        streamBridge.send("orderEventProcess-out-0", orderPurchaseEvent);
 
-        log.info("OrderPurchaseEventProcess  process ====>>> {}",orderPurchaseEvent);
+        log.info("OrderPurchaseEventProcess  process ====>>> {}", orderPurchaseEvent);
     }
 
 

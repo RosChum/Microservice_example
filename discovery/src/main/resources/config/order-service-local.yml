@@ -18,11 +18,11 @@ spring:
       format_sql: true
     show-sql: true
   cloud:
+    function:
+      definition: ordersEventProducer
     stream:
-#      function:
-#        definition: orderPurchaseEvent
       bindings:
-        orderEventOut:
+        ordersEventProducer-out-0:
           destination: orders
           content-type: application/json
 #          producer:

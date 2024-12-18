@@ -1,8 +1,9 @@
 package org.example.paymentservice.domain;
 
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
+
 
 @ToString
 @Getter
