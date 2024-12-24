@@ -26,6 +26,8 @@ public class JwtUtil {
     public String generateToken(String subject) {
         return JWT.create()
                 .withIssuer("http://skillbox.ru")
+
+
                 .withIssuedAt(new Date())
                 .withExpiresAt(makeExpirationDate())
                 .withSubject(subject)

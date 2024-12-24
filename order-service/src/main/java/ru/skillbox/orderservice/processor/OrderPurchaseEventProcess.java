@@ -3,6 +3,7 @@ package ru.skillbox.orderservice.processor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Component;
 import ru.skillbox.orderservice.domain.Order;
 import ru.skillbox.orderservice.domain.event_for_sream_cloud.EventProducer;
@@ -15,7 +16,7 @@ import ru.skillbox.orderservice.domain.event_for_sream_cloud.OrderPurchaseEvent;
 public class OrderPurchaseEventProcess implements EventProducer<OrderPurchaseEvent> {
 
 
-//    private final StreamBridge streamBridge;
+    private final StreamBridge streamBridge;
     private OrderPurchaseEvent orderPurchaseEvent;
 
     @Override
@@ -31,7 +32,7 @@ public class OrderPurchaseEventProcess implements EventProducer<OrderPurchaseEve
                 .status(order.getStatus())
                 .userId(null).build();
 
-//        streamBridge.send("orderEventProcess-out-0", orderPurchaseEvent);
+        streamBridge.send("ordersEventProducer-out-0", orderPurchaseEvent);
 
         log.info("OrderPurchaseEventProcess  process ====>>> {}", orderPurchaseEvent);
     }
